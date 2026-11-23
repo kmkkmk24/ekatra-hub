@@ -1,9 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
 }
+
+// Release signing key details live in keystore.properties at the project root. That file holds
+// passwords, so it is git-ignored and never committed - see keystore.properties.example.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val hasReleaseKey = keystoreProperties.getProperty("storeFile") != null
 
 android {
     // NOTE: applicationId is permanent once the app is on the Play Store.
@@ -19,6 +29,17 @@ android {
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        if (hasReleaseKey) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             // R8 shrinks + optimizes the code. Release builds are MUCH smoother than
@@ -29,9 +50,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            // Temporary: sign release with the debug key so you can install it on your
-            // own phone. Replace with a real upload key before publishing to Play.
-            signingConfig = signingConfigs.getByName("debug")
+            // Signed with YOUR release key when keystore.properties exists. Every published
+            // version must use this same key, or phones refuse to install the update.
+            // Without the file (e.g. a fresh checkout), fall back to the debug key so the
+            // project still builds - never publish an APK built that way.
+            signingConfig = if (hasReleaseKey) {
+                signingConfigs.getByName("release")
+            } else {
+                logger.warn("keystore.properties not found: release build is signed with the DEBUG key.")
+                signingConfigs.getByName("debug")
+            }
         }
     }
 

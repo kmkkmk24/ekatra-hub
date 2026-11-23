@@ -11,6 +11,11 @@
     -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!-- Sleeping-screen LED: a dot-only notification (Android 13+ asks before an app may post any). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Experimental blinking dot: keeps the processor awake briefly so the blink continues while the screen sleeps. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- Lets us look up the name + icon of apps that post notifications (Android 11+ package visibility). -->
     <queries>
         <intent>

@@ -7,6 +7,8 @@ import android.service.notification.StatusBarNotification
 import androidx.core.app.NotificationCompat
 import com.kaushikkm.ekatrahub.EkatraApp
 import com.kaushikkm.ekatrahub.data.NotificationEntity
+import com.kaushikkm.ekatrahub.peek.AodDotController
+import com.kaushikkm.ekatrahub.peek.LedController
 import com.kaushikkm.ekatrahub.peek.PeekController
 import com.kaushikkm.ekatrahub.peek.PeekSettings
 import kotlinx.coroutines.CoroutineScope
@@ -36,10 +38,18 @@ class HubListenerService : NotificationListenerService() {
     /** The Peek edge handle + Hub overlay. Lives as long as Android keeps this listener connected. */
     private var peek: PeekController? = null
 
+    /** The on-screen "BlackBerry LED". Same lifetime as Peek. */
+    private var led: LedController? = null
+
+    /** The LED on the sleeping screen (Always On Display), via a dot-only notification. */
+    private var aodDot: AodDotController? = null
+
     /** Called when access is granted (and after reboots): import what's already in the shade. */
     override fun onListenerConnected() {
         NotificationActions.attach(this)
         if (peek == null) peek = PeekController(this).also { it.start() }
+        if (led == null) led = LedController(this).also { it.start() }
+        if (aodDot == null) aodDot = AodDotController(this).also { it.start() }
         val active = runCatching { activeNotifications }.getOrNull() ?: return
         active.forEach(NotificationActions::remember)
         val entities = active.mapNotNull { it.toEntityOrNull() }
@@ -50,6 +60,10 @@ class HubListenerService : NotificationListenerService() {
         NotificationActions.detach()
         peek?.stop()
         peek = null
+        led?.stop()
+        led = null
+        aodDot?.stop()
+        aodDot = null
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
@@ -100,11 +114,16 @@ class HubListenerService : NotificationListenerService() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         peek?.refresh()
+        led?.refresh()
     }
 
     override fun onDestroy() {
         peek?.stop()
         peek = null
+        led?.stop()
+        led = null
+        aodDot?.stop()
+        aodDot = null
         scope.cancel()
         super.onDestroy()
     }

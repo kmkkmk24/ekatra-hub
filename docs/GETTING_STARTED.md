@@ -165,6 +165,39 @@ How to use it, from any app or the home screen:
 > is Home and swiping in from the sides is Back. Taking those over would break your phone's
 > navigation. BlackBerry's own Android phones used the same edge-handle idea (the Productivity Tab).
 
+### C4. Notification LED (the BlackBerry red light)
+Your phone has no notification light, so Ekatra draws one: a small glowing dot at the top of the
+screen that **blinks while you have unread notifications** in Ekatra, and stops when you've read
+them.
+
+1. In Ekatra, tap **⚙ Settings** and switch on **Notification LED**.
+   (If Peek isn't on, it asks for **Appear on top** first, the same as Peek.)
+2. Choose **LED apps** (up to 5): tap **Choose apps** and pick the apps that should light the
+   LED, then tap a colour circle under each one (Red, Orange, Yellow, Green, Blue, Purple,
+   White). Only those apps light the LED; everything else still arrives in Ekatra quietly. When
+   several have unread messages, the LED takes turns showing their colours. With no apps
+   chosen, every app lights it in one colour.
+3. Pick a **position**: **Next to camera** (looks most like a real LED), **Top left** or **Top right**.
+
+**On the sleeping screen too:** switch on **LED on the sleeping screen**. While the screen is off
+and you have unread notifications from your LED apps, the Always On Display shows one coloured
+dot per app (e.g. 🟢 🔴), no sound, no vibration. Tap Allow when Android asks if Ekatra may send notifications.
+- Samsung always shows the app's icon next to a notification, so Ekatra's icon sits beside the dot.
+- **Blink (experimental), made for AOD "Tap to show":** at each blink Ekatra re-posts the dot,
+  which wakes the Always On Display for a few seconds to show 🔴, then the AOD goes dark again.
+  Choose how often: **20s, 30s (default), 60s or 120s**. Shorter gaps would keep the AOD awake.
+  Samsung slides each new notification in; apps can't change that animation. It keeps the
+  processor lightly awake (about 1% battery per hour) and only blinks for 30 minutes after a new
+  notification.
+- Without Blink, set **Always On Display > When to show > Show always** to keep the dot
+  visible; with **Tap to show** it only appears after you tap the screen.
+
+Good to know:
+- The blinking on-screen light itself shows while the **screen is on**; on the sleeping screen
+  you get the dot notification above.
+- It never blocks touches: tapping that spot goes to the app underneath.
+- Between blinks it's fully idle, so the battery cost is tiny.
+
 ---
 
 ## Part D: make it butter smooth (release build)

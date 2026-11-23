@@ -49,6 +49,10 @@ interface NotificationDao {
     )
     fun observeApps(): Flow<List<AppCount>>
 
+    /** Drives the LED: it blinks while this is above zero. */
+    @Query("SELECT COUNT(*) FROM notifications WHERE isRead = 0")
+    fun observeUnreadCount(): Flow<Int>
+
     @Query("UPDATE notifications SET isRead = :read WHERE id = :id")
     suspend fun setRead(id: Long, read: Boolean)
 

@@ -8,7 +8,7 @@
 
 *Ekatra (एकत्र) is Sanskrit for "together, in one place".*
 
-[**⬇ Download the latest APK**](https://github.com/kmkkmk24/ekatra-hub/releases/latest) · [Getting started](docs/GETTING_STARTED.md) · 100% on-device · Free
+[**⬇ Download the latest APK**](https://github.com/kmkkmk24/ekatra-hub/releases/latest/download/Ekatra.apk) · [Release notes](https://github.com/kmkkmk24/ekatra-hub/releases/latest) · [Getting started](docs/GETTING_STARTED.md) · 100% on-device · Free
 
 </div>
 
@@ -97,7 +97,7 @@ A notification hub sees your most private messages, so Ekatra was designed so it
 
 ## 📲 Install
 
-1. On your Android phone (**Android 8.0+**), download the APK from **[Releases](https://github.com/kmkkmk24/ekatra-hub/releases/latest)**.
+1. On your Android phone (**Android 8.0+**), tap **[⬇ Download Ekatra.apk](https://github.com/kmkkmk24/ekatra-hub/releases/latest/download/Ekatra.apk)**. The download starts straight away.
 2. Open it and allow your browser to **install unknown apps** if asked. If Play Protect warns about an unknown developer, choose **More details › Install anyway**.
 3. Open Ekatra and tap **Allow notification access**.
    *Android 13+:* if the switch is greyed out ("Restricted setting"), go to **Settings › Apps › Ekatra › ⋮ › Allow restricted settings**.
